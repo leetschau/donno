@@ -1,0 +1,6 @@
+build/
+dist/
+sdist/
+bdist_wheel/
+*.egg-info
+**/__pycache__/
