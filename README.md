@@ -5,24 +5,55 @@ A simple note-take CLI application.
 ## Usage
 
 ```
-donno a        # add a new note
-donno l        # list existing notes
-donno s nim thunder    # search keywords in existing notes
-donno e 3      # edit note #3 in note list or searching results
-donno del 3    # delete note #3 in note list or searching results
-donno b        # backup notes to remote repository
-donno r        # restore notes from remote repository
+don a        # add a new note
+don l        # list existing notes
+don s nim thunder    # search notes contains "nim" and "thunder"
+don e 3      # edit note #3 in note list or searching results
+don del 3    # delete note #3 in note list or searching results
+don b        # backup notes to remote repository
+don r        # restore notes from remote repository
+don p 3      # preview note #3 in browser
+don s compile -n nim -t config  # search notes which "nim" in its title, "config" in tags and "compile" in contents
+don s -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
+don pub      # publish notes to blog
 ```
 
 ## Configuration
 
-Environment variables:
+File path: ~/.config/donno/donno.conf
 
-* EDITOR
-* EDITOR_ENV
+### General
 
-For set vim configuration, run
-`EDITOR=nvim EDITOR_ENV="XDG_CONFIG_HOME:/home/leo/Documents/sources/vimrcs/nim" dn e`
-to let vim use configurations with the home /home/leo/Documents/sources/vimrcs/nim,
-for example.
+* editor: which editor to use to create/update note, default: `nvim`
+* notebook: current notebook name, no default value
+* base_dir: root folder of donno data files, default: ~/.donno
+* vimrc_home: when editor is vim or neovim, the configuration home folder, default: ~/.config/nvim
+* resource_dir: folder name (in base_dir) to store attachments of notes, default: resources
+
+### Blog
+
+* url: blog url
+* publish_cmd: command to publish note to blog
+
+## Roadmap
+
+1. Basic note-taking functions: add, delete, list, search, view, update notes
+
+1. Configuration module: see [Configuration](#configuration);
+
+1. Support adding attachments into notes, espeicially images
+
+1. Preview: render markdown notes to HTML and previewed in browser
+
+1. Synchronize notes between hosts (based on VCS, such as git)
+
+1. Import/Export from/to other open source note-taking apps, such as [Joplin]()
+
+1. Advanced search function: search by title, tag, notebook and content
+
+1. Search with regular expression;
+
+1. Basic publishing module: publish to blog, such as github.io
+
+1. Advanced publishing function: publish specific note, or notes in specific notebook
 
