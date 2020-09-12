@@ -1,22 +1,25 @@
 # Donno
 
-A simple note-take CLI application.    
+A simple note-take CLI application.
 
 ## Usage
 
 ```
-don a        # add a new note
-don l        # list existing notes
-don s nim thunder    # search notes contains "nim" and "thunder"
-don e 3      # edit note #3 in note list or searching results
-don del 3    # delete note #3 in note list or searching results
-don b        # backup notes to remote repository
-don r        # restore notes from remote repository
-don p 3      # preview note #3 in browser
-don s compile -n nim -t config  # search notes which "nim" in its title, "config" in tags and "compile" in contents
-don s -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
-don pub      # publish notes to blog
+don add        # create a new note
+don list       # list existing notes
+don search nim thunder    # search notes contains "nim" and "thunder"
+don edit 3     # edit note #3 in note list or searching results
+don delete 3   # delete note #3 in note list or searching results
+don backup     # backup notes to remote repository
+don restore    # restore notes from remote repository
+don preview 3  # preview note #3 in console editor
+don phtml 3    # preview note #3 in browser
+don ads -n nim -t config -c compile  # search notes which "nim" in its title, "config" in tags and "compile" in contents
+don ads -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
+don publish    # publish notes to blog
 ```
+
+Note: `phtml` command depends on pandoc and a browser.
 
 ## Configuration
 
