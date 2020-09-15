@@ -1,4 +1,3 @@
-import sys
 import fire
 from donno import notes
 
@@ -15,39 +14,32 @@ class App:
     def delete(self, no):
         notes.delete_note(no)
 
-    def list(self, number):
+    def list(self, number=5):
         '''List most updated <number> notes'''
         print(notes.list_notes(number))
 
-    def l(self, number):  # noqa
+    def l(self, number=5):  # noqa
         """Alias of list command"""
         self.list(number)
 
-    def edit(self, no):
+    def edit(self, no=1):
         notes.update_note(no)
 
-    def e(self, no):
+    def e(self, no=1):
         '''Alias of edit command'''
         self.edit(no)
 
     def search(self, *keys):
-        if len(keys) == 0:
-            sys.exit('Add at least 1 keyword to search')
-
-        path_list = notes.simple_search(keys)
-        if len(path_list) == 0:
-            sys.exit("No match found")
-        else:
-            print(notes.note_list(path_list))
+        print(notes.simple_search(keys))
 
     def s(self, *keys):
         '''alias for search command'''
         self.search(*keys)
 
-    def view(self, no):
-        notes.view_notes(no)
+    def view(self, no=1):
+        notes.view_note(no)
 
-    def v(self, no):
+    def v(self, no=1):
         '''Alias of view command'''
         self.view(no)
 

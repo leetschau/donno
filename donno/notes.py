@@ -9,12 +9,14 @@ import sh
 BASE_DIR = Path.home() / ".donno"
 REPO = BASE_DIR / 'repo'
 NOTE_FILES = REPO.glob('*.md')
-EDITOR = 'nvim'
+EDIT_CMD = 'nvim'
+VIEW_CMD = 'nvim -R'
 EDITOR_CONF = {'XDG_CONFIG_HOME': '$HOME/Documents/sources/vimrcs/text'}
 CURRENT_NB = '/Diary/2020'
 
 TEMP_FILE = 'newnote.md'
 REC_FILE = BASE_DIR / 'record'
+TRASH = BASE_DIR / 'trash'
 
 
 def add_note():
@@ -27,15 +29,36 @@ def add_note():
               f'Updated: {created}\n\n------\n\n')
     with open(TEMP_FILE, 'w') as f:
         f.write(header)
-    subprocess.run([EDITOR, TEMP_FILE], env={**os.environ, **EDITOR_CONF})
+    subprocess.run(f'{EDIT_CMD} {TEMP_FILE}', shell=True,
+                   env={**os.environ, **EDITOR_CONF})
     # EDITOR_CONF must be put AFTER `os.environ`, for in above syntax,
     # the latter will update the former
     # meanwhile, sh package is not suitable for TUI, so here I use subprocess
     fn = f'note{now.strftime("%y%m%d%H%M%S")}.md'
-    print(f'Save note to {REPO}/{fn}')
+    # print(f'Save note to {REPO}/{fn}')
     if not REPO.exists():
         REPO.mkdir(parents=True)
     sh.mv(TEMP_FILE, REPO / fn)
+
+
+def update_note(no: int):
+    with open(REC_FILE) as f:
+        paths = [line.strip() for line in f.readlines()]
+    fn = paths[no - 1]
+    subprocess.run(f'{EDIT_CMD} {fn}', shell=True,
+                   env={**os.environ, **EDITOR_CONF})
+    updated = datetime.fromtimestamp(
+        Path(fn).stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+    sh.sed('-i', f'5c Updated: {updated}', fn)
+    print(list_notes(5))  # TODO move magic number to config file
+
+
+def view_note(no: int):
+    with open(REC_FILE) as f:
+        paths = [line.strip() for line in f.readlines()]
+    fn = paths[no - 1]
+    subprocess.run(f'{VIEW_CMD} {fn}', shell=True,
+                   env={**os.environ, **EDITOR_CONF})
 
 
 def extract_header(path: Path) -> str:
@@ -43,7 +66,7 @@ def extract_header(path: Path) -> str:
     with open(path) as f:
         header = [next(f).strip().split(': ')[1]
                   for x in range(header_line_number)]
-    return (f'[{header[3][2:]}] {header[0]} [{header[1]}] {header[2]} '
+    return (f'[{header[4]}] {header[0]} [{header[1]}] {header[2]} '
             f'{header[3]}')
 
 
@@ -56,7 +79,7 @@ def record_to_details():
     return '\n'.join([title_line, *with_index])
 
 
-def list_notes(number: int):
+def list_notes(number):
     file_list = sorted(NOTE_FILES, key=lambda f: f.stat().st_mtime,
                        reverse=True)
     with open(REC_FILE, 'w') as f:
@@ -64,23 +87,29 @@ def list_notes(number: int):
     return record_to_details()
 
 
-def delete_note(no):
-    pass
+def delete_note(no: int):
+    with open(REC_FILE) as f:
+        paths = [line.strip() for line in f.readlines()]
+    if not TRASH.exists():
+        TRASH.mkdir()
+    sh.mv(paths[no - 1], TRASH)
 
 
 def filter_word(file_list: List[str], word: str) -> List[str]:
     if len(file_list) == 0:
         return []
-    return sh.grep('-i', '-l', word, file_list).stdout.decode(
-            'UTF-8').strip().split('\n')
+    try:
+        res = sh.grep('-i', '-l', word, file_list)
+    except sh.ErrorReturnCode_1:
+        return []
+    else:
+        return res.stdout.decode('UTF-8').strip().split('\n')
 
 
 def simple_search(word_list: List[str]) -> List[str]:
     search_res = reduce(filter_word, word_list, list(NOTE_FILES))
+    if len(search_res) == 0:
+        return ""
     with open(REC_FILE, 'w') as f:
         f.write('\n'.join([str(path) for path in search_res]))
     return record_to_details()
-
-
-def note_list(file_list: List[str]) -> str:
-    return file_list
