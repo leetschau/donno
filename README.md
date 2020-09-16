@@ -2,6 +2,10 @@
 
 A simple note-take CLI application.
 
+## Install
+
+`pip install donno`
+
 ## Usage
 
 ```
@@ -37,6 +41,37 @@ File path: ~/.config/donno/donno.conf
 
 * url: blog url
 * publish_cmd: command to publish note to blog
+
+## Update and uninstall
+
+```
+pip install --upgrade donno
+pip uninstall donno
+```
+
+## Some notes
+
+### Install in virtual environment
+
+For those who don't want install apps in global environment,
+install it in a virtual environment:
+```
+mkdir ~/apps/donno
+cd ~/apps/donno
+python -m venv env
+. env/bin/activate
+pip install donno
+
+cat << EOF >> ~/.zshrc
+function dn() {
+  source $HOME/apps/donno/env/bin/activate
+  don $@
+  deactivate
+}
+EOF
+```
+
+Now the command is `dn` instead of `don`.
 
 ## Roadmap
 
