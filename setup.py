@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="donno",
-    version="0.3.0",
+    version="0.3.1",
     author="Li Chao",
     author_email="clouds@isrc.iscas.ac.cn",
     description="A simple note-taking CLI application",
@@ -13,7 +13,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/leetschau/donno",
     packages=setuptools.find_packages(),
-    install_requires=["sh >= 1.14.0"],
+    install_requires=[
+        "sh >= 1.14.0",
+        "fire >= 0.3.1",
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
