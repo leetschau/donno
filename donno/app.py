@@ -44,5 +44,11 @@ class App:
         self.view(no)
 
 
-if __name__ == '__main__':
+def main():
     fire.Fire(App)
+
+
+# for test purpose:
+# python donno/app.py s python con
+if __name__ == '__main__':
+    main()

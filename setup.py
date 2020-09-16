@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="donno",
-    version="0.2.0",
+    version="0.3.0",
     author="Li Chao",
     author_email="clouds@isrc.iscas.ac.cn",
     description="A simple note-taking CLI application",
@@ -23,7 +23,7 @@ setuptools.setup(
     keywords="note pim",
     entry_points={
         "console_scripts": [
-            "donno = donno.app:main",
+            "don = donno.app:main",
         ],
     }
 )
