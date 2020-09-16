@@ -64,8 +64,11 @@ def view_note(no: int):
 def extract_header(path: Path) -> str:
     header_line_number = 5
     with open(path) as f:
-        header = [next(f).strip().split(': ')[1]
-                  for x in range(header_line_number)]
+        header = []
+        for x in range(header_line_number):
+            header_sections = next(f).strip().split(': ')
+            header.append(header_sections[1]
+                          if len(header_sections) > 1 else '')
     return (f'[{header[4]}] {header[0]} [{header[1]}] {header[2]} '
             f'{header[3]}')
 
