@@ -50,14 +50,15 @@ File path: ~/.config/donno/config.json
 ### Manage Configurations
 
 ```
-don conf get    # list all current configurations
-don conf get edtior    # get which editor to use
-don conf set editor nvim    # set the editor
+don conf get                # list all current configurations
+don conf get edtior         # get which editor to use
+don conf set editor nvim    # set the editor, make sure you've installed it
+don conf set default_notebook /Diary/2020
 
 # set nested attribute:
-don conf set editor_envs.XDG_CONFIG_HOME $HOME/.config/vimrcs/text
+don conf set editor_envs.XDG_CONFIG_HOME $HOME/Documents/sources/vimrcs/text
 
-# restore default setup of configurations:
+# restore default values of configurations:
 don conf restore
 ```
 

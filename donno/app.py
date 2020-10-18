@@ -1,6 +1,5 @@
 import fire
-from donno import notes
-import config
+from donno import notes, config
 from pprint import pprint
 
 

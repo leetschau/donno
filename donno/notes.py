@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 import os
 import sh
-from config import get_attr
+from donno.config import get_attr
 
 configs = get_attr(())
 NOTE_FILES = Path(configs['repo']).glob('*.md')
