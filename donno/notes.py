@@ -5,9 +5,9 @@ from pathlib import Path
 import subprocess
 import os
 import sh
-from config import load_configs
+from config import get_attr
 
-configs = load_configs()
+configs = get_attr(())
 NOTE_FILES = Path(configs['repo']).glob('*.md')
 TEMP_FILE = 'newnote.md'
 REC_FILE = Path(configs['app_home']) / 'record'

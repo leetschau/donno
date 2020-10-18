@@ -1,5 +1,7 @@
 import fire
 from donno import notes
+import config
+from pprint import pprint
 
 
 class App:
@@ -12,10 +14,15 @@ class App:
         self.add()
 
     def delete(self, no):
+        '''Delete the <no>th note
+        :param no: no. of note to delete
+        '''
         notes.delete_note(no)
 
     def list(self, number=5):
-        '''List most updated <number> notes'''
+        '''List most updated <number> notes
+        :param number: number of note to edit, default: 5
+        '''
         print(notes.list_notes(number))
 
     def l(self, number=5):  # noqa
@@ -23,6 +30,9 @@ class App:
         self.list(number)
 
     def edit(self, no=1):
+        '''Edit the <no>th note
+        :param no: no. of note to edit, default: 1
+        '''
         notes.update_note(no)
 
     def e(self, no=1):
@@ -30,6 +40,9 @@ class App:
         self.edit(no)
 
     def search(self, *keys):
+        '''Search by keys in all notes
+        :param keys: list of keywords to search
+        '''
         print(notes.simple_search(keys))
 
     def s(self, *keys):
@@ -37,11 +50,28 @@ class App:
         self.search(*keys)
 
     def view(self, no=1):
+        '''View the <no>th note
+        :param no: no. of note to edit, default: 1
+        '''
         notes.view_note(no)
 
     def v(self, no=1):
         '''Alias of view command'''
         self.view(no)
+
+    def conf(self, action, *params):
+        """Manage configurations
+        :param action: get|set|restore
+        :param params: [attribute name, attribute value]
+        """
+        if action == "get":
+            pprint(config.get_attr(params), indent=2)
+        elif action == "set":
+            pprint(config.set_attr(params), indent=2)
+        elif action == "restore":
+            pprint(config.restore(), indent=2)
+        else:
+            print(f"Invalid action: {action}")
 
 
 def main():
