@@ -27,20 +27,39 @@ Note: `phtml` command depends on pandoc and a browser.
 
 ## Configuration
 
-File path: ~/.config/donno/donno.conf
+File path: ~/.config/donno/config.json
 
-### General
+### Configuration Items
 
-* editor: which editor to use to create/update note, default: `nvim`
-* notebook: current notebook name, no default value
-* base_dir: root folder of donno data files, default: ~/.donno
-* vimrc_home: when editor is vim or neovim, the configuration home folder, default: ~/.config/nvim
-* resource_dir: folder name (in base_dir) to store attachments of notes, default: resources
+#### General
 
-### Blog
+* app_home: root folder of donno data files. Default: ~/.donno
+* repo: folder to save all note files and resource files. Default: $app_home/repo
+* editor: which application to use to create/update note. Default: `nvim`
+* viewer: which application to use to view notes in console. Default: `nvim -R`
+* default_notebook: default notebook name for a new note. Default: `/Diary`
+* editor_envs: environment variables of the editor. For example,
+  env `XDG_CONFIG_HOME` is used by neovim to load config/plugins to parse markdown files.
+  Default: `~/.config`
+
+#### Blog
 
 * url: blog url
-* publish_cmd: command to publish note to blog
+* publish_cmd: command to publish notes to blog
+
+### Manage Configurations
+
+```
+don conf get    # list all current configurations
+don conf get edtior    # get which editor to use
+don conf set editor nvim    # set the editor
+
+# set nested attribute:
+don conf set editor_envs.XDG_CONFIG_HOME $HOME/.config/vimrcs/text
+
+# restore default setup of configurations:
+don conf restore
+```
 
 ## Update and uninstall
 

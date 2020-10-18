@@ -5,60 +5,56 @@ from pathlib import Path
 import subprocess
 import os
 import sh
+from config import load_configs
 
-BASE_DIR = Path.home() / ".donno"
-REPO = BASE_DIR / 'repo'
-NOTE_FILES = REPO.glob('*.md')
-EDIT_CMD = 'nvim'
-VIEW_CMD = 'nvim -R'
-EDITOR_CONF = {'XDG_CONFIG_HOME': '$HOME/Documents/sources/vimrcs/text'}
-CURRENT_NB = '/Diary/2020'
-
+configs = load_configs()
+NOTE_FILES = Path(configs['repo']).glob('*.md')
 TEMP_FILE = 'newnote.md'
-REC_FILE = BASE_DIR / 'record'
-TRASH = BASE_DIR / 'trash'
+REC_FILE = Path(configs['app_home']) / 'record'
+TRASH = Path(configs['app_home']) / 'trash'
+DEFAULT_NOTE_LIST = 5
 
 
 def add_note():
     now = datetime.now()
     created = now.strftime("%Y-%m-%d %H:%M:%S")
-    current_nb = CURRENT_NB
+    current_nb = configs['default_notebook']
     header = ('Title: \nTags: \n'
               f'Notebook: {current_nb}\n'
               f'Created: {created}\n'
               f'Updated: {created}\n\n------\n\n')
     with open(TEMP_FILE, 'w') as f:
         f.write(header)
-    subprocess.run(f'{EDIT_CMD} {TEMP_FILE}', shell=True,
-                   env={**os.environ, **EDITOR_CONF})
+    subprocess.run(f'{configs["editor"]} {TEMP_FILE}', shell=True,
+                   env={**os.environ, **configs["editor_envs"]})
     # EDITOR_CONF must be put AFTER `os.environ`, for in above syntax,
     # the latter will update the former
     # meanwhile, sh package is not suitable for TUI, so here I use subprocess
     fn = f'note{now.strftime("%y%m%d%H%M%S")}.md'
     # print(f'Save note to {REPO}/{fn}')
-    if not REPO.exists():
-        REPO.mkdir(parents=True)
-    sh.mv(TEMP_FILE, REPO / fn)
+    if not Path(configs['repo']).exists():
+        Path(configs['repo']).mkdir(parents=True)
+    sh.mv(TEMP_FILE, Path(configs['repo']) / fn)
 
 
 def update_note(no: int):
     with open(REC_FILE) as f:
         paths = [line.strip() for line in f.readlines()]
     fn = paths[no - 1]
-    subprocess.run(f'{EDIT_CMD} {fn}', shell=True,
-                   env={**os.environ, **EDITOR_CONF})
+    subprocess.run(f'{configs["editor"]} {fn}', shell=True,
+                   env={**os.environ, **configs["editor_envs"]})
     updated = datetime.fromtimestamp(
         Path(fn).stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     sh.sed('-i', f'5c Updated: {updated}', fn)
-    print(list_notes(5))  # TODO move magic number to config file
+    print(list_notes(DEFAULT_NOTE_LIST))
 
 
 def view_note(no: int):
     with open(REC_FILE) as f:
         paths = [line.strip() for line in f.readlines()]
     fn = paths[no - 1]
-    subprocess.run(f'{VIEW_CMD} {fn}', shell=True,
-                   env={**os.environ, **EDITOR_CONF})
+    subprocess.run(f'{configs["viewer"]} {fn}', shell=True,
+                   env={**os.environ, **configs["editor_envs"]})
 
 
 def extract_header(path: Path) -> str:
