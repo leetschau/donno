@@ -109,6 +109,8 @@ def simple_search(word_list: List[str]) -> List[str]:
     search_res = reduce(filter_word, word_list, list(NOTE_FILES))
     if len(search_res) == 0:
         return ""
+    sorted_res = sorted(search_res, key=lambda f: Path(f).stat().st_mtime,
+                        reverse=True)
     with open(REC_FILE, 'w') as f:
-        f.write('\n'.join([str(path) for path in search_res]))
+        f.write('\n'.join([str(path) for path in sorted_res]))
     return record_to_details()
