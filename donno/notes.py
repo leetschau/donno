@@ -5,6 +5,8 @@ from pathlib import Path
 import subprocess
 import os
 import sh
+import shutil
+import webbrowser
 from donno.config import get_attr
 
 configs = get_attr(())
@@ -114,3 +116,18 @@ def simple_search(word_list: List[str]) -> List[str]:
     with open(REC_FILE, 'w') as f:
         f.write('\n'.join([str(path) for path in sorted_res]))
     return record_to_details()
+
+
+def preview_note(no: int):
+    pandoc = shutil.which('pandoc')
+    if pandoc is None:
+        print('Pandoc not installed?\n'
+              'Install it with `apt install pandoc` '
+              'before running this command.')
+        return
+    with open(REC_FILE) as f:
+        paths = [line.strip() for line in f.readlines()]
+    fn = paths[no - 1]
+    preview_file = Path(fn).parent / 'preview.html'
+    sh.pandoc('-o', preview_file, fn)
+    webbrowser.open(str(preview_file))

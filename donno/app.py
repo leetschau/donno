@@ -58,6 +58,10 @@ class App:
         '''Alias of view command'''
         self.view(no)
 
+    def pv(self, no=1):
+        '''Render note as HTML and preview in browser'''
+        notes.preview_note(no)
+
     def conf(self, action, *params):
         """Manage configurations
         :param action: get|set|restore
