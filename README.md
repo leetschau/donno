@@ -25,6 +25,58 @@ don publish    # publish notes to blog
 
 Note: `pv` command depends on pandoc and a browser.
 
+## Add attachments in a note
+
+You can add attachments in your notes.
+They could be image files, which are added by `![<image-file-name>]()`,
+or other files, which are added by  `[<attachment-file-name>]()`
+(without exclamation mark ahead, like common markdown links).
+
+The attachment file specified in the link must exist in the folder you add the
+note (the folder you run `don a`),
+or "attachment file not exists" error will be raised.
+
+### Under the hood
+
+When you save a note and quit the editor,
+donno will scan all `[<filename>]()` pattern in the note.
+If the <filename>s exist in the current folder,
+donno do the following things:
+
+1. Generate a <internal-name> for each attachment;
+1. Copy each file to <notes-repo>/resources folder (get the path of
+   <notes-repo> with `don conf get repo`)
+   with their <internal-name>s;
+1. Update the link in the note from `[<filename>]()` to `[<filename>](<internal-name>)`
+
+The <internal-name> is composed of 5 parts:
+
+1. Prefix `resources/`, for all attachments are saved in this folder in <notes-repo>
+1. <note-name>
+1. `att`
+1. Order number
+1. File extension of original file
+
+For example, if you add the following attachments in the note with filename
+*note201118140711.md*:
+```
+![myimage.png]()
+[mydoc.pdf]()
+```
+
+They  will be updated to:
+```
+![myimage.png](resources/note201118140711att1.png)
+[mydoc.pdf](resources/note201118140711att2.pdf)
+```
+
+If the attachment file doesn't exist in the current folder,
+donno will give a warning:
+```
+File myimage.png does not exist in the current folder.
+You can run `don e ...` at the folder where myimage.png exists.
+```
+
 ## Configuration
 
 File path: ~/.config/donno/config.json
@@ -103,13 +155,15 @@ Now the command is `dn` instead of `don`.
 
 1. Support adding attachments into notes, espeicially images
 
+1. Add logging system, distinguish application (for end user) and debugging (for developer) logs
+
 1. Synchronize notes between hosts (based on VCS, such as git)
 
-1. Import/Export from/to other open source note-taking apps, such as [Joplin]()
+1. Import/Export from/to other open source note-taking apps, such as [Joplin](https://joplinapp.org/)
 
 1. Advanced search function: search by title, tag, notebook and content
 
-1. Search with regular expression;
+1. Search with regular expression
 
 1. Basic publishing module: publish to blog, such as github.io
 

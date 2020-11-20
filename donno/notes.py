@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import os
 import sh
+import re
 import shutil
 import webbrowser
 from donno.config import get_attr
@@ -15,6 +16,33 @@ TEMP_FILE = 'newnote.md'
 REC_FILE = Path(configs['app_home']) / 'record'
 TRASH = Path(configs['app_home']) / 'trash'
 DEFAULT_NOTE_LIST = 5
+RES_FOLDER = Path('resources')
+
+
+def update_attachments(notefn: str):
+    """ See README.md > Add attachment in a note > Under the hood for
+        implementation details
+    """
+    with open(Path(configs['repo']) / notefn, 'r') as f:
+        note = f.read()
+    links = re.findall(r'\[.*\]\(\)', note)
+    ord_no = 0
+    for link in links:
+        ord_no += 1
+        attfn = link[1:-3]
+        attfile = Path(os.getcwd()) / attfn
+        internal_path = RES_FOLDER / (Path(notefn).stem + 'att' + str(ord_no)
+                                      + attfile.suffix)
+        if attfile.exists():
+            print(f'copy file from {attfile} to repo_path/{internal_path}')
+            sh.cp(attfile, Path(configs['repo']) / internal_path)
+            note = note.replace(link, f'[{attfn}]({internal_path})')
+        else:
+            print(f'Warning:\nAttachment {attfn} not exists in'
+                  f'current folder.\nYou can run `don e ...` at the folder'
+                  f'where {attfn} exists.')
+    with open(Path(configs['repo']) / notefn, 'w') as f:
+        f.write(note)
 
 
 def add_note():
@@ -37,6 +65,7 @@ def add_note():
     if not Path(configs['repo']).exists():
         Path(configs['repo']).mkdir(parents=True)
     sh.mv(TEMP_FILE, Path(configs['repo']) / fn)
+    update_attachments(fn)
 
 
 def update_note(no: int):
@@ -48,6 +77,7 @@ def update_note(no: int):
     updated = datetime.fromtimestamp(
         Path(fn).stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     sh.sed('-i', f'5c Updated: {updated}', fn)
+    update_attachments(fn)
     print(list_notes(DEFAULT_NOTE_LIST))
 
 
