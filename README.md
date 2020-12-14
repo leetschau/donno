@@ -90,6 +90,7 @@ File path: ~/.config/donno/config.json
 * editor: which application to use to create/update note. Default: `nvim`
 * viewer: which application to use to view notes in console. Default: `nvim -R`
 * default_notebook: default notebook name for a new note. Default: `/Diary`
+* logging level: debug or info(default)
 * editor_envs: environment variables of the editor. For example,
   env `XDG_CONFIG_HOME` is used by neovim to load config/plugins to parse markdown files.
   Default: `~/.config`
@@ -156,6 +157,8 @@ Now the command is `dn` instead of `don`.
 1. Support adding attachments into notes, espeicially images
 
 1. Add logging system, distinguish application (for end user) and debugging (for developer) logs
+
+1. Notebook management: list notebooks, list notes in specified notebook
 
 1. Synchronize notes between hosts (based on VCS, such as git)
 

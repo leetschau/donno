@@ -4,19 +4,29 @@ from datetime import datetime
 from pathlib import Path
 import subprocess
 import os
-import sh
 import re
 import shutil
 import webbrowser
+import logging
+import sh
 from donno.config import get_attr
 
-configs = get_attr(())
+
+configs = get_attr()
 NOTE_FILES = Path(configs['repo']).glob('*.md')
 TEMP_FILE = 'newnote.md'
 REC_FILE = Path(configs['app_home']) / 'record'
 TRASH = Path(configs['app_home']) / 'trash'
 DEFAULT_NOTE_LIST = 5
 RES_FOLDER = Path('resources')
+
+logger = logging.getLogger('donno')
+logger.setLevel(logging.INFO if configs['logging_level'] == 'info'
+                else logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setFormatter(logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(ch)
 
 
 def update_attachments(notefn: str):
@@ -34,13 +44,14 @@ def update_attachments(notefn: str):
         internal_path = RES_FOLDER / (Path(notefn).stem + 'att' + str(ord_no)
                                       + attfile.suffix)
         if attfile.exists():
-            print(f'copy file from {attfile} to repo_path/{internal_path}')
+            logger.debug(f'copy file from {attfile} to '
+                         f'repo_path/{internal_path}')
             sh.cp(attfile, Path(configs['repo']) / internal_path)
             note = note.replace(link, f'[{attfn}]({internal_path})')
         else:
-            print(f'Warning:\nAttachment {attfn} not exists in'
-                  f'current folder.\nYou can run `don e ...` at the folder'
-                  f'where {attfn} exists.')
+            logger.warn(f'Attachment {attfn} not exists in current folder.\n'
+                        f'You can run `don e ...` at the folder'
+                        f'where {attfn} exists.')
     with open(Path(configs['repo']) / notefn, 'w') as f:
         f.write(note)
 
@@ -61,7 +72,7 @@ def add_note():
     # the latter will update the former
     # meanwhile, sh package is not suitable for TUI, so here I use subprocess
     fn = f'note{now.strftime("%y%m%d%H%M%S")}.md'
-    # print(f'Save note to {REPO}/{fn}')
+    logger.debug(f"Save note to {Path(configs['repo']) / fn}")
     if not Path(configs['repo']).exists():
         Path(configs['repo']).mkdir(parents=True)
     sh.mv(TEMP_FILE, Path(configs['repo']) / fn)
@@ -78,7 +89,7 @@ def update_note(no: int):
         Path(fn).stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     sh.sed('-i', f'5c Updated: {updated}', fn)
     update_attachments(fn)
-    print(list_notes(DEFAULT_NOTE_LIST))
+    logger.info(list_notes(DEFAULT_NOTE_LIST))
 
 
 def view_note(no: int):
@@ -151,9 +162,8 @@ def simple_search(word_list: List[str]) -> List[str]:
 def preview_note(no: int):
     pandoc = shutil.which('pandoc')
     if pandoc is None:
-        print('Pandoc not installed?\n'
-              'Install it with `apt install pandoc` '
-              'before running this command.')
+        logger.error('Pandoc not installed?\nInstall it with '
+                     '`apt install pandoc before running this command.')
         return
     with open(REC_FILE) as f:
         paths = [line.strip() for line in f.readlines()]

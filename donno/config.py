@@ -10,6 +10,7 @@ DEFAULT_CONF = {
     'editor': 'nvim',
     'viewer': 'nvim -R',
     'default_notebook': '/Diary',
+    'logging_level': 'info',
     'editor_envs': {
         'XDG_CONFIG_HOME': '$HOME/.config',
     },
@@ -21,10 +22,10 @@ if not CONF_PATH.exists():
         json.dump(DEFAULT_CONF, f, indent=4)
 
 
-def get_attr(attr_name: Tuple):
+def get_attr(attr_name: Tuple = None):
     with open(CONF_PATH) as f:
         configs = json.load(f)
-    if len(attr_name) == 0:
+    if attr_name is None:
         return configs
     else:
         return configs[attr_name[0]]
