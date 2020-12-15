@@ -169,7 +169,7 @@ def preview_note(no: int):
         paths = [line.strip() for line in f.readlines()]
     fn = paths[no - 1]
     preview_file = Path(fn).parent / 'preview.html'
-    sh.pandoc('-o', preview_file, fn)
+    sh.pandoc(fn, standalone=True, mathjax=True, toc=True, o=preview_file)
     webbrowser.open(str(preview_file))
 
 

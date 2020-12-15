@@ -2,6 +2,22 @@
 
 A simple note-take CLI application.
 
+## Features
+
+* Easy note management: add, update, list, remove note;
+* Organize notes in hierarchical notebooks;
+* Full featured formating support: you can add rich texts (markdown),
+  mathematical formula (mathjax, LaTeX), images, attachments, ...
+  All will be rendered and displayed lively in your browser
+  through [pandoc](https://pandoc.org/);
+* Powerful and fast full-text search. Get all information at your fingers;
+* Safe and secure: all notes are saved in plain texts (markdown). You own your data.
+  You can view and update your notes without any specific applications
+  but a text editor when necessary. All notes store in private git repository;
+* Live in console: git style APIs. No need to learn a new GUI app.
+  Get your notes anytime, anywhere: Linux, macOS, Windows (through WSL),
+  Android (by Termux), SSH, ...
+
 ## Install
 
 `pip install donno`
