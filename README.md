@@ -10,7 +10,8 @@ A simple note-take CLI application.
 
 ```
 don add        # create a new note
-don list       # list existing notes
+don list       # list notes in all notebooks, or specific notebook with `-b` option
+don list-notebooks    # list existing notebooks in alphabet order
 don search nim thunder    # search notes contains "nim" and "thunder"
 don edit 3     # edit note #3 in note list or searching results
 don delete 3   # delete note #3 in note list or searching results
@@ -23,7 +24,12 @@ don ads -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
 don publish    # publish notes to blog
 ```
 
-Note: `pv` command depends on pandoc and a browser.
+Note:
+
+* Most long commands have an alias (abbreviation) for convenience.
+  For example, `a` for add, `l` for list, `s` for search.
+  Get alias with `-h` option.
+* `pv` command depends on pandoc and a browser.
 
 ## Add attachments in a note
 

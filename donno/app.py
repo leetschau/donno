@@ -5,7 +5,7 @@ from pprint import pprint
 
 class App:
     def add(self):
-        '''Add a new note in the current notebook'''
+        '''Add a new note in the current notebook. Abbr: a'''
         notes.add_note()
 
     def a(self):
@@ -19,7 +19,7 @@ class App:
         notes.delete_note(no)
 
     def list(self, number=5):
-        '''List most updated <number> notes
+        '''List most updated <number> notes. Abbr: l
         :param number: number of note to edit, default: 5
         '''
         print(notes.list_notes(number))
@@ -29,7 +29,7 @@ class App:
         self.list(number)
 
     def edit(self, no=1):
-        '''Edit the <no>th note
+        '''Edit the <no>th note. Abbr: e
         :param no: no. of note to edit, default: 1
         '''
         notes.update_note(no)
@@ -39,7 +39,7 @@ class App:
         self.edit(no)
 
     def search(self, *keys):
-        '''Search by keys in all notes
+        '''Search by keys in all notes. Abbr: s
         :param keys: list of keywords to search
         '''
         print(notes.simple_search(keys))
@@ -49,7 +49,7 @@ class App:
         self.search(*keys)
 
     def view(self, no=1):
-        '''View the <no>th note
+        '''View the <no>th note. Abbr: v
         :param no: no. of note to edit, default: 1
         '''
         notes.view_note(no)
@@ -75,6 +75,16 @@ class App:
             pprint(config.restore(), indent=2)
         else:
             print(f"Invalid action: {action}")
+
+    def list_notebooks(self):
+        '''List notebooks. Abbr: lnb
+        '''
+        print(notes.list_notebooks())
+
+    def lnb(self):
+        '''alias for list-notebook command
+        '''
+        self.list_notebooks()
 
 
 def main():

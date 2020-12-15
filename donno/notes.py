@@ -171,3 +171,9 @@ def preview_note(no: int):
     preview_file = Path(fn).parent / 'preview.html'
     sh.pandoc('-o', preview_file, fn)
     webbrowser.open(str(preview_file))
+
+
+def list_notebooks() -> str:
+    nbs = sh.uniq(sh.sort(sh.awk('FNR==3 {print $2}', list(NOTE_FILES))))
+    # 前提条件：笔记第 3 行 'Notebook:' 与名称之间有空格
+    return nbs
