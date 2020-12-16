@@ -177,3 +177,17 @@ def list_notebooks() -> str:
     nbs = sh.uniq(sh.sort(sh.awk('FNR==3 {print $2}', list(NOTE_FILES))))
     # 前提条件：笔记第 3 行 'Notebook:' 与名称之间有空格
     return nbs
+
+
+def backup_repo(comments: str):
+    vcs = Path(configs['repo']) / '.git'
+    if not vcs.exists():
+        logger.warn('No git repo detected. Create it and try again.')
+        # TODO: add instructions here
+        return
+    logger.info(sh.git('status', _cwd=configs['repo']))
+    sync = input('Sync to remote repo? Y/n ') or 'Y'
+    if sync == 'Y':
+        logger.info(sh.git('add', '-A', _cwd=configs['repo']))
+        logger.info(sh.git('commit', '-m', comments, _cwd=configs['repo']))
+        logger.info(sh.git('push', _cwd=configs['repo']))

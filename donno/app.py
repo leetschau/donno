@@ -86,6 +86,16 @@ class App:
         '''
         self.list_notebooks()
 
+    def backup(self, comments: str = "update notes"):
+        '''Backup notes to remote repository. Abbr: b
+        '''
+        notes.backup_repo(comments)
+
+    def b(self, comments: str = "update notes"):
+        '''alias for backup command
+        '''
+        self.backup(comments)
+
 
 def main():
     fire.Fire(App)

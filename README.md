@@ -26,7 +26,7 @@ A simple note-take CLI application.
 
 ```
 don add        # create a new note
-don list       # list notes in all notebooks, or specific notebook with `-b` option
+don list       # list notes in all notebooks
 don list-notebooks    # list existing notebooks in alphabet order
 don search nim thunder    # search notes contains "nim" and "thunder"
 don edit 3     # edit note #3 in note list or searching results
@@ -35,14 +35,14 @@ don backup     # backup notes to remote repository
 don restore    # restore notes from remote repository
 don preview 3  # preview note #3 in console editor
 don pv 3       # preview note #3 in browser
-don ads -n nim -t config -c compile  # search notes which "nim" in its title, "config" in tags and "compile" in contents
+don ads -b Tech -n nim -t config -c compile  # search notes in notebook Tech, which has "nim" in its title, "config" in tags and "compile" in contents
 don ads -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
 don publish    # publish notes to blog
 ```
 
 Note:
 
-* Most long commands have an alias (abbreviation) for convenience.
+* Most long commands have aliases (abbreviation) for convenience.
   For example, `a` for add, `l` for list, `s` for search.
   Get alias with `-h` option.
 * `pv` command depends on pandoc and a browser.
@@ -170,19 +170,11 @@ Now the command is `dn` instead of `don`.
 
 ## Roadmap
 
-1. Basic note-taking functions: add, delete, list, search, view, update notes
+### In developing
 
-1. Configuration module: see [Configuration](#configuration);
+Synchronize notes between hosts (based on VCS, such as git)
 
-1. Preview: render markdown notes to HTML and previewed in browser
-
-1. Support adding attachments into notes, espeicially images
-
-1. Add logging system, distinguish application (for end user) and debugging (for developer) logs
-
-1. Notebook management: list notebooks, list notes in specified notebook
-
-1. Synchronize notes between hosts (based on VCS, such as git)
+### On schedule
 
 1. Import/Export from/to other open source note-taking apps, such as [Joplin](https://joplinapp.org/)
 
@@ -193,4 +185,18 @@ Now the command is `dn` instead of `don`.
 1. Basic publishing module: publish to blog, such as github.io
 
 1. Advanced publishing function: publish specific note, or notes in specific notebook
+
+### Completed
+
+1. Basic note-taking functions: add, delete, list, search, view, update notes
+
+1. Configuration module: see [Configuration](#configuration);
+
+1. Preview: render markdown notes to HTML and previewed in browser
+
+1. Support adding attachments into notes, especially images
+
+1. Add logging system, distinguish application (for end user) and debugging (for developer) logs
+
+1. Notebook management: list notebooks, list notes in specified notebook
 
