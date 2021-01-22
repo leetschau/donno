@@ -9,6 +9,7 @@ import shutil
 import webbrowser
 import logging
 import sh
+import json
 from donno.config import get_attr
 
 
@@ -19,6 +20,7 @@ REC_FILE = Path(configs['app_home']) / 'record'
 TRASH = Path(configs['app_home']) / 'trash'
 DEFAULT_NOTE_LIST = 5
 RES_FOLDER = Path('resources')
+EXPORT_DIR = 'donno_export'
 
 logger = logging.getLogger('donno')
 logger.setLevel(logging.INFO if configs['logging_level'] == 'info'
@@ -40,7 +42,7 @@ def update_attachments(notefn: str):
     for link in links:
         ord_no += 1
         attfn = link[1:-3]
-        attfile = Path(os.getcwd()) / attfn
+        attfile = Path.cwd() / attfn
         internal_path = RES_FOLDER / (Path(notefn).stem + 'att' + str(ord_no)
                                       + attfile.suffix)
         if attfile.exists():
@@ -110,6 +112,24 @@ def extract_header(path: Path) -> str:
                           if len(header_sections) > 1 else '')
     return (f'[{header[4]}] {header[0]} [{header[1]}] {header[2]} '
             f'{header[3]}')
+
+
+def parse_note(path: Path) -> dict:
+    """ convert note in plain text to a dictionary.
+        Line #1 ~ #5 are meta data of the note.
+        Line #9 to end is the body.
+    """
+    header_line_number = 5
+    body_start_line = 9
+    res = {}
+    with open(path) as f:
+        for x in range(header_line_number):
+            header_sections = next(f).strip().split(': ')
+            res[header_sections[0]] = header_sections[1] if len(
+                header_sections) > 1 else ''
+    body = sh.sed('-n', f'{body_start_line},$p', path).stdout.decode('utf-8')
+    res['body'] = body
+    return res
 
 
 def record_to_details():
@@ -191,3 +211,15 @@ def backup_repo(comments: str):
         logger.info(sh.git('add', '-A', _cwd=configs['repo']))
         logger.info(sh.git('commit', '-m', comments, _cwd=configs['repo']))
         logger.info(sh.git('push', _cwd=configs['repo']))
+
+
+def export_notes(ftype: str):
+    if ftype == 'json':
+        (Path.cwd() / EXPORT_DIR).mkdir(exist_ok=True)
+        for note in NOTE_FILES:
+            data = parse_note(note)
+            target = Path.cwd() / EXPORT_DIR / (note.stem + '.json')
+            with open(target, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
+    else:
+        logger.warn('Unsupported export file type')

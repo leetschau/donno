@@ -144,6 +144,32 @@ pip install --upgrade donno
 pip uninstall donno
 ```
 
+## Import & Export between Other Note-taking Apps
+
+Supported import formats:
+
+* Joplin
+
+Supported export formats:
+
+* JSON
+* markdown
+
+Examples:
+
+Import notes from Joplin:
+```
+jop export --format json jopdb
+don import --type joplin jopdb
+```
+
+Export notes as JSON files and save into folder *donno_export*:
+```
+don export --type json
+```
+
+List parameters with `don export -h` and `don import -h`.
+
 ## Some notes
 
 ### Install in virtual environment
@@ -176,7 +202,8 @@ Synchronize notes between hosts (based on VCS, such as git)
 
 ### On schedule
 
-1. Import/Export from/to other open source note-taking apps, such as [Joplin](https://joplinapp.org/)
+1. Import/Export from/to other open source note-taking apps,
+   such as [Joplin](https://joplinapp.org/)
 
 1. Advanced search function: search by title, tag, notebook and content
 

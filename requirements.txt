@@ -1,0 +1,67 @@
+fire==0.3.1
+  six==1.15.0
+  termcolor==1.1.0
+ipython==7.18.1
+  backcall==0.2.0
+  decorator==4.4.2
+  jedi==0.17.2
+    parso==0.7.1
+  pexpect==4.8.0
+    ptyprocess==0.6.0
+  pickleshare==0.7.5
+  prompt-toolkit==3.0.7
+    wcwidth==0.2.5
+  Pygments==2.6.1
+  setuptools==49.6.0
+  traitlets==5.0.4
+    ipython-genutils==0.2.0
+pip-autoremove==0.9.1
+pipdeptree==1.0.0
+  pip==20.2.4
+ptpython==3.0.5
+  appdirs==1.4.4
+  jedi==0.17.2
+    parso==0.7.1
+  prompt-toolkit==3.0.7
+    wcwidth==0.2.5
+  Pygments==2.6.1
+pynvim==0.4.1
+  greenlet==0.4.16
+  msgpack==1.0.0
+sh==1.14.0
+twine==3.2.0
+  colorama==0.4.3
+  keyring==21.3.1
+    jeepney==0.4.3
+    SecretStorage==3.1.2
+      cryptography==3.1
+        cffi==1.14.2
+          pycparser==2.20
+        six==1.15.0
+      jeepney==0.4.3
+  pkginfo==1.5.0.1
+  readme-renderer==26.0
+    bleach==3.1.5
+      packaging==20.4
+        pyparsing==2.4.7
+        six==1.15.0
+      six==1.15.0
+      webencodings==0.5.1
+    docutils==0.16
+    Pygments==2.6.1
+    six==1.15.0
+  requests==2.24.0
+    certifi==2020.6.20
+    chardet==3.0.4
+    idna==2.10
+    urllib3==1.25.10
+  requests-toolbelt==0.9.1
+    requests==2.24.0
+      certifi==2020.6.20
+      chardet==3.0.4
+      idna==2.10
+      urllib3==1.25.10
+  rfc3986==1.4.0
+  setuptools==49.6.0
+  tqdm==4.48.2
+wheel==0.35.1
