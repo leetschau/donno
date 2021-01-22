@@ -102,18 +102,6 @@ def view_note(no: int):
                    env={**os.environ, **configs["editor_envs"]})
 
 
-def extract_header(path: Path) -> str:
-    header_line_number = 5
-    with open(path) as f:
-        header = []
-        for x in range(header_line_number):
-            header_sections = next(f).strip().split(': ')
-            header.append(header_sections[1]
-                          if len(header_sections) > 1 else '')
-    return (f'[{header[4]}] {header[0]} [{header[1]}] {header[2]} '
-            f'{header[3]}')
-
-
 def parse_note(path: Path) -> dict:
     """ convert note in plain text to a dictionary.
         Line #1 ~ #5 are meta data of the note.
@@ -133,7 +121,12 @@ def parse_note(path: Path) -> dict:
 
 
 def record_to_details():
-    title_line = 'No. Updated, Title, Tags, Notebook, Created'
+    def extract_header(path: Path) -> str:
+        note = parse_note(path)
+        return (f'{note["Updated"][:10]} {note["Notebook"]}: {note["Title"]} '
+                f'[{note["Created"][:10]}] {note["Tags"]}')
+
+    title_line = 'No. Updated, Notebook, Title, Created, Tags'
     with open(REC_FILE) as f:
         paths = [line.strip() for line in f.readlines()]
     headers = [extract_header(path) for path in paths]
