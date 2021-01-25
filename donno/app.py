@@ -1,5 +1,6 @@
 import fire
 from donno import notes, config
+from donno import converters
 from pprint import pprint
 
 
@@ -48,7 +49,7 @@ class App:
         '''
         notes.update_note(no)
 
-    def export(self, ftype='json'):
+    def exports(self, ftype='json'):
         '''Export all notes into an external file
         :param ftype: export file type, default: JSON
         '''
@@ -57,6 +58,10 @@ class App:
     def e(self, no=1):
         '''Alias of edit command'''
         self.edit(no)
+
+    def imports(self, notes_folder, source_type):
+        if source_type == 'joplin':
+            converters.joplin.import_json(notes_folder)
 
     def list(self, number=5):
         '''List most updated <number> notes. Abbr: l

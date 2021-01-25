@@ -160,12 +160,12 @@ Examples:
 Import notes from Joplin:
 ```
 jop export --format json jopdb
-don import --type joplin jopdb
+don imports jopdb --source-type joplin
 ```
 
 Export notes as JSON files and save into folder *donno_export*:
 ```
-don export --type json
+don exports --type json
 ```
 
 List parameters with `don export -h` and `don import -h`.
