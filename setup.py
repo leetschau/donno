@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="donno",
-    version="0.12.0",
+    version="0.12.2",
     author="Li Chao",
     author_email="clouds@isrc.iscas.ac.cn",
     description="A simple note-taking CLI application",

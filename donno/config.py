@@ -22,10 +22,10 @@ if not CONF_PATH.exists():
         json.dump(DEFAULT_CONF, f, indent=4)
 
 
-def get_attr(attr_name: Tuple = None):
+def get_attr(attr_name: Tuple = ()):
     with open(CONF_PATH) as f:
         configs = json.load(f)
-    if attr_name is None:
+    if len(attr_name) == 0:
         return configs
     else:
         return configs[attr_name[0]]

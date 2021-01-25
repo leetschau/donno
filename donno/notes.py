@@ -112,9 +112,12 @@ def parse_note(path: Path) -> dict:
     res = {}
     with open(path) as f:
         for x in range(header_line_number):
-            header_sections = next(f).strip().split(': ')
-            res[header_sections[0]] = header_sections[1] if len(
-                header_sections) > 1 else ''
+            the_line = next(f).strip()
+            if the_line.endswith(':'):
+                the_line += ' '  # fix 'Tags: ' striped to 'Tags:' problem
+            header_sections = the_line.split(': ')
+            assert len(header_sections) == 2
+            res[header_sections[0]] = header_sections[1]
     body = sh.sed('-n', f'{body_start_line},$p', path).stdout.decode('utf-8')
     res['body'] = body
     return res
