@@ -157,7 +157,7 @@ def filter_word(file_list: List[str], word: str) -> List[str]:
     if len(file_list) == 0:
         return []
     try:
-        res = sh.grep('-i', '-l', word, file_list)
+        res = sh.grep('-i', '-l', '-E', word, file_list)
     except sh.ErrorReturnCode_1:
         return []
     else:
@@ -219,3 +219,22 @@ def export_notes(ftype: str):
                 json.dump(data, f, ensure_ascii=False)
     else:
         logger.warn('Unsupported export file type')
+
+
+def advanced_search(name: str, tag: str, content: str, book: str) -> str:
+    search_res = list(NOTE_FILES)
+    if len(str(name)) > 0:
+        search_res = filter_word(search_res, f'^Title: .*{name}')
+    if len(str(tag)) > 0:
+        search_res = filter_word(search_res, f'^Tag: .*{tag}')
+    if len(str(book)) > 0:
+        search_res = filter_word(search_res, f'^Notebook: .*{book}')
+    if len(str(content)) > 0:
+        search_res = filter_word(search_res, content)
+    if len(search_res) == 0:
+        return ""
+    sorted_res = sorted(search_res, key=lambda f: Path(f).stat().st_mtime,
+                        reverse=True)
+    with open(REC_FILE, 'w') as f:
+        f.write('\n'.join([str(path) for path in sorted_res]))
+    return record_to_details()

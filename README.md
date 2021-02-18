@@ -35,17 +35,21 @@ don backup     # backup notes to remote repository
 don restore    # restore notes from remote repository
 don preview 3  # preview note #3 in console editor
 don pv 3       # preview note #3 in browser
-don ads -b Tech -n nim -t config -c compile  # search notes in notebook Tech, which has "nim" in its title, "config" in tags and "compile" in contents
-don ads -r "[nim|thunder]"  # search notes contains "nim" or "thunder"
+don ads -b Tech -n nim -t config -c compile  # advanced search, see below for explanations
+don s '(python.*program|learning.*algorithm)'  # search notes with regex, see below for explanations
 don publish    # publish notes to blog
 ```
 
 Note:
 
 * Most long commands have aliases (abbreviation) for convenience.
-  For example, `a` for add, `l` for list, `s` for search.
-  Get alias with `-h` option.
-* `pv` command depends on pandoc and a browser.
+  For example, `a` for add, `l` for list, `s` for search,
+  `ads` for `advanced-search`, etc. Get alias of a command with `-h` option.
+* The command options have 2 forms: full and abbreviation.
+  For example, in command `ads`, `-b` is the abbr. of `--book`,
+  `-t`: `--tag`, `-n`: `--name`, etc.
+* To use `pv` command, [pandoc](https://pandoc.org/) and a browser is necessary.
+  Install pandoc on Debian/Ubuntu/Mint with `apt install pandoc`.
 
 ## Add attachments in a note
 
@@ -170,6 +174,26 @@ don exports --type json
 
 List parameters with `don export -h` and `don import -h`.
 
+## Advanced search
+
+To search notes with more details, use *advanced-search* command.
+For example, to search notes in notebook *Tech*, and "nim" in title,
+"config" in tags, "compile" in contents:
+```
+don ads -b Tech -n nim -t config -c compile
+```
+
+which is abbreviation form of:
+```
+don advanced-search --book Tech --name nim --tag config --content compile
+```
+
+You can also use regex in search term.
+For example, to search notes contains "python...program" *or* "learning...algorithm":
+```
+don s '(python.*program|learning.*algorithm)'
+```
+
 ## Some notes
 
 ### Install in virtual environment
@@ -198,16 +222,11 @@ Now the command is `dn` instead of `don`.
 
 ### In developing
 
-Synchronize notes between hosts (based on VCS, such as git)
-
-### On schedule
-
-1. Import/Export from/to other open source note-taking apps,
-   such as [Joplin](https://joplinapp.org/)
-
 1. Advanced search function: search by title, tag, notebook and content
 
 1. Search with regular expression
+
+### On schedule
 
 1. Basic publishing module: publish to blog, such as github.io
 
@@ -226,4 +245,9 @@ Synchronize notes between hosts (based on VCS, such as git)
 1. Add logging system, distinguish application (for end user) and debugging (for developer) logs
 
 1. Notebook management: list notebooks, list notes in specified notebook
+
+1. Synchronize notes between hosts (based on VCS, such as git)
+
+1. Import/Export from/to other open source note-taking apps,
+   such as [Joplin](https://joplinapp.org/)
 

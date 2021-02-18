@@ -13,6 +13,23 @@ class App:
         """Alias of add command"""
         self.add()
 
+    def advanced_search(self, name: str = '', tag: str = '',
+                        content: str = '', book: str = ''):
+        '''advanced search with title(naem), tag, notebook and content
+        Abbr: ads
+        :param name: string in note title (name)
+        :param tag: string in note tag
+        :param content: string in note body
+        :param book: string in notebook
+        '''
+        print(notes.advanced_search(name, tag, content, book))
+
+    def ads(self, name: str = '', tag: str = '',
+            content: str = '', book: str = ''):
+        '''alias for advanced-search command
+        '''
+        self.advanced_search(name, tag, content, book)
+
     def backup(self, comments: str = "update notes"):
         '''Backup notes to remote repository. Abbr: b
         '''
