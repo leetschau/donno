@@ -37,7 +37,7 @@ don preview 3  # preview note #3 in console editor
 don pv 3       # preview note #3 in browser
 don ads -b Tech -n nim -t config -c compile  # advanced search, see below for explanations
 don s '(python.*program|learning.*algorithm)'  # search notes with regex, see below for explanations
-don publish    # publish notes to blog
+don pub        # publish notes to blog
 ```
 
 Note:
@@ -222,15 +222,23 @@ Now the command is `dn` instead of `don`.
 
 ### In developing
 
-1. Advanced search function: search by title, tag, notebook and content
-
-1. Search with regular expression
-
-### On schedule
-
 1. Basic publishing module: publish to blog, such as github.io
 
 1. Advanced publishing function: publish specific note, or notes in specific notebook
+
+### On schedule
+
+1. Search notes with the whole words;
+
+1. Search notes with keywords (which is extracted with AI algorithms, such as NLP, TF-IDF, etc);
+
+1. Similar notes recommendations of a specific note with recommendation algorithms;
+
+1. Note syntax check with NLP;
+
+1. Knowledge graph construction and visualization (in TUI) from a specific root (note);
+
+1. Note translation, English to Chinese and vice versa.
 
 ### Completed
 
@@ -250,4 +258,8 @@ Now the command is `dn` instead of `don`.
 
 1. Import/Export from/to other open source note-taking apps,
    such as [Joplin](https://joplinapp.org/)
+
+1. Advanced search function: search by title, tag, notebook and content
+
+1. Search with regular expression
 
