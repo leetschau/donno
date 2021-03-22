@@ -1,6 +1,6 @@
 # Donno
 
-A simple note-take CLI application.
+A full-featured note-taking application in terminal.
 
 ## Features
 
@@ -21,6 +21,16 @@ A simple note-take CLI application.
 ## Install
 
 `pip install donno`
+
+### Prerequisites
+
+* [git](https://git-scm.com/)
+* [pandoc](https://pandoc.org/)
+
+On Debian-based systems, install them with:
+```
+apt install git pandoc
+```
 
 ## Usage
 
@@ -193,6 +203,25 @@ For example, to search notes contains "python...program" *or* "learning...algori
 ```
 don s '(python.*program|learning.*algorithm)'
 ```
+
+## Synchronization between Multiple Devices
+
+To sync notes between multiple devices, you have to create a *remote git repository*.
+The simplest way is creating it on a source-code-hosting platform,
+such as github.com, gitlab.com, gitee.com, etc.
+
+Then push your *local note folder* (get its path with `don conf get repo`,
+if you didn't set it explicitly) to remote repository.
+
+On a new device, clone the remote repository to the local note folder.
+
+When you update notes on device A, and want to sync the changes to device B,
+run `git pull` in the local note folder of device B.
+
+## Publish to Blog
+
+If you want to publish notes in a specified notebook to blog,
+see [blog doc](./blog/README.md) for details.
 
 ## Some notes
 
