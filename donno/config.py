@@ -14,6 +14,7 @@ DEFAULT_CONF = {
     'editor_envs': {
         'XDG_CONFIG_HOME': '$HOME/.config',
     },
+    'blog.notebook': 'Tech',
 }
 
 if not CONF_PATH.exists():

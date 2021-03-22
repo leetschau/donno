@@ -6,13 +6,20 @@
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta name="generator" content="pandoc" />
     <title>DarkMatter in Cyberspace</title>
-    <link rel="stylesheet" href="blog.css">
+    <style>
+      body {
+       background-color: #f2e7c7;
+      }
+      .meta-data {
+        font-style: italic
+      }
+    </style>
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   </head>
   <body>
     <span class="note-list">
       $for(note)$
-      <p><a href="$note.url$">$note.name$</a></p>
+      <p><a href="$note.path$">$note.title$</a> $note.tags$ Updated: $updated$</p>
       $endfor$
     </span>
   </body>
