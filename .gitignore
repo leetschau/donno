@@ -4,3 +4,4 @@ sdist/
 bdist_wheel/
 *.egg-info
 **/__pycache__/
+.env

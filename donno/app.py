@@ -40,6 +40,16 @@ class App:
         '''
         self.backup(comments)
 
+    def backup_patch(self, filepath: str = "/tmp/donno.patch"):
+        '''Backup notes to patch file. Abbr: bp
+        '''
+        notes.backup_patch(filepath)
+
+    def bp(self, filepath: str = "/tmp/donno.patch"):
+        '''alias for backup_patch command
+        '''
+        self.backup_patch(filepath)
+
     def conf(self, action, *params):
         """Manage configurations
         :param action: get|set|restore
@@ -103,6 +113,16 @@ class App:
     def pv(self, no=1):
         '''Render note as HTML and preview in browser'''
         notes.preview_note(no)
+
+    def restore_patch(self, filepath: str = "/tmp/donno.patch"):
+        '''Restore notes from patch file. Abbr: rp
+        '''
+        notes.restore_patch(filepath)
+
+    def rp(self, filepath: str = "/tmp/donno.patch"):
+        '''alias for restore_patch command
+        '''
+        self.restore_patch(filepath)
 
     def search(self, *keys):
         '''Search by keys in all notes. Abbr: s

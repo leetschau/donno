@@ -41,8 +41,12 @@ don list-notebooks    # list existing notebooks in alphabet order
 don search nim thunder    # search notes contains "nim" and "thunder"
 don edit 3     # edit note #3 in note list or searching results
 don delete 3   # delete note #3 in note list or searching results
+
 don backup     # backup notes to remote repository
 don restore    # restore notes from remote repository
+don backup-patch /tmp/donno.patch  # backup notes out of git revision to tarball /tmp/donno.patch
+don restore-patch /tmp/donno.patch  # restore notes out of git revision from /tmp/donno.patch
+
 don preview 3  # preview note #3 in console editor
 don pv 3       # preview note #3 in browser
 don ads -b Tech -n nim -t config -c compile  # advanced search, see below for explanations
@@ -145,7 +149,7 @@ don conf set editor nvim    # set the editor, make sure you've installed it
 don conf set default_notebook /Diary/2020
 
 # set nested attribute:
-don conf set editor_envs.XDG_CONFIG_HOME $HOME/Documents/sources/vimrcs/text
+don conf set editor_envs.XDG_CONFIG_HOME $HOME/.config/vimrcs/text
 
 # restore default values of configurations:
 don conf restore
@@ -206,7 +210,10 @@ don s '(python.*program|learning.*algorithm)'
 
 ## Synchronization between Multiple Devices
 
-To sync notes between multiple devices, you have to create a *remote git repository*.
+### Main method: VCS
+
+To sync notes between multiple devices,
+you need a *remote* VCS (version control system) repository.
 The simplest way is creating it on a source-code-hosting platform,
 such as github.com, gitlab.com, gitee.com, etc.
 
@@ -217,6 +224,15 @@ On a new device, clone the remote repository to the local note folder.
 
 When you update notes on device A, and want to sync the changes to device B,
 run `git pull` in the local note folder of device B.
+
+With the powerful merge function of git,
+you can create and/or update notes on multiple devices simultaneously,
+then sync them with *rebase* or other methods.
+
+### Complement method: patch file
+
+When the changes of notes are too small to form a meaningful commit,
+you can patch them to a file, then restore it on another device.
 
 ## Publish to Blog
 
@@ -256,6 +272,9 @@ Now the command is `dn` instead of `don`.
 1. Advanced publishing function: publish specific note, or notes in specific notebook
 
 ### On schedule
+
+1. Synchronize notes with patch file as the complement to the main sync
+   mechanism based on git;
 
 1. Search notes with the whole words;
 

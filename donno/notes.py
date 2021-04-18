@@ -10,6 +10,7 @@ import webbrowser
 import logging
 import sh
 import json
+import tarfile
 from donno.config import get_attr
 
 
@@ -238,3 +239,20 @@ def advanced_search(name: str, tag: str, content: str, book: str) -> str:
     with open(REC_FILE, 'w') as f:
         f.write('\n'.join([str(path) for path in sorted_res]))
     return record_to_details()
+
+
+def backup_patch(tarball_path: str):
+    git_cmd = sh.git.bake(c='status.color=false', _cwd=configs['repo'])
+    modified = git_cmd.status(short=True).strip().split('\n')
+    logger.info('The following files will be added into archive:\n ' +
+                ', '.join(modified))
+    with tarfile.open(tarball_path, 'w:xz') as archive:
+        # here `3` means the file name is started from 4th character in
+        # a line like 'M  .gitignore':
+        for item in modified:
+            archive.add(Path(configs['repo']) / item[3:], arcname=item[3:])
+
+
+def restore_patch(filepath: str):
+    with tarfile.open(filepath, 'r') as archive:
+        archive.extractall(configs['repo'])
