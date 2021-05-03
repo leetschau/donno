@@ -242,15 +242,10 @@ def advanced_search(name: str, tag: str, content: str, book: str) -> str:
 
 
 def backup_patch(tarball_path: str):
-    git_cmd = sh.git.bake(c='status.color=false', _cwd=configs['repo'])
-    modified = git_cmd.status(short=True).strip().split('\n')
-    logger.info('The following files will be added into archive:\n ' +
-                ', '.join(modified))
-    with tarfile.open(tarball_path, 'w:xz') as archive:
-        # here `3` means the file name is started from 4th character in
-        # a line like 'M  .gitignore':
-        for item in modified:
-            archive.add(Path(configs['repo']) / item[3:], arcname=item[3:])
+    subprocess.run(f'tar --ignore-failed-read -cvzf {tarball_path} '
+                   '$(git status -s | cut -c4-)',
+                   shell=True, check=True, cwd=configs['repo'])
+    print(f'Patch file created: {tarball_path}')
 
 
 def restore_patch(filepath: str):
