@@ -44,8 +44,8 @@ don delete 3   # delete note #3 in note list or searching results
 
 don backup     # backup notes to remote repository
 don restore    # restore notes from remote repository
-don backup-patch /tmp/donno.patch  # backup notes out of git revision to tarball /tmp/donno.patch
-don restore-patch /tmp/donno.patch  # restore notes out of git revision from /tmp/donno.patch
+don backup-patch  # backup notes out of git revision to tarball, default to /tmp
+don restore-patch # restore notes from patch file
 
 don preview 3  # preview note #3 in console editor
 don pv 3       # preview note #3 in browser

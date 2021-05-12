@@ -38,3 +38,47 @@
 * 转换器：将 markdown, mathjax 转换为基于一个可定制模板 (HTML, CSS) 的 HTML 文件；
 * 发布到博客：`git push`
 
+# Backup/Restore with Patch File
+
+donno 默认使用 git 库进行多个实例间的同步，但有些非常细微的改动，
+不希望出现在版本历史中，或者由于网络原因暂时不能 pull from remote repo，
+这时 backup to patch file 提供了一种解决方案。
+
+实现机制是将源实例库（这里记为 S）中未提交的文件打包到 patch file 里，
+拷贝/发送到目标实例上，导入到donno repo（这里记为 T）里。
+
+这种同步方式要求S 和 T的 HEAD 必须是同一版本，
+为了实现这一点，patch file 的文件名格式为：
+
+donno-<hash>.patch
+
+在 T 上导入 patch 文件时，检查该 patch 文件的 hash 是否与 HEAD 版本的 hash 一致，
+如果一致则将 patch 解压到 working tree 上，否则检查 hash 是否为历史版本，
+如果是历史版本，说明 S 需要首先同步最新版本库，再创建 patch 文件；
+如果 hash 未出现在版本历史中，说明 T 需要首先同步到最新版本，再解压 patch。
+
+前一种情况，提示用户更新 S 库 (pull in S)，
+后一种情况，提示用户更新 T 库 (pull in T)。
+
+为了方便用户完成上述操作，donno 提供了 `git` 子命令，
+所有 `git` 子命令都是在 donno git repo 中执行。
+也就是说，任何 `don git <p1, p2, p3 ...>` 等效于：
+```
+cd ~/.donno/repo
+git <<p1, p2, p3 ...>
+```
+
+这种第一种情况下用户在 S 主机上执行：
+```
+don git stash
+don git pull
+don git stash pop
+don backup-patch
+```
+
+第二种情况用户在 T 主机上执行：
+```
+don git pull
+don restore-patch
+```
+
