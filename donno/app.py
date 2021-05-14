@@ -40,7 +40,7 @@ class App:
         '''
         self.backup(comments)
 
-    def backup_patch(self, filepath: str = "/tmp/donno.patch"):
+    def backup_patch(self, filepath: str = "/tmp/donno"):
         '''Backup notes to patch file. Abbr: bp
         '''
         notes.backup_patch(filepath)

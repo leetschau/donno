@@ -50,7 +50,7 @@ donno 默认使用 git 库进行多个实例间的同步，但有些非常细微
 这种同步方式要求S 和 T的 HEAD 必须是同一版本，
 为了实现这一点，patch file 的文件名格式为：
 
-donno-<hash>.patch
+<user-defined-filename>-patch-<hash>.tgz
 
 在 T 上导入 patch 文件时，检查该 patch 文件的 hash 是否与 HEAD 版本的 hash 一致，
 如果一致则将 patch 解压到 working tree 上，否则检查 hash 是否为历史版本，

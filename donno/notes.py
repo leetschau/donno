@@ -242,10 +242,14 @@ def advanced_search(name: str, tag: str, content: str, book: str) -> str:
 
 
 def backup_patch(tarball_path: str):
-    subprocess.run(f'tar --ignore-failed-read -cvzf {tarball_path} '
+    sha_cmd = subprocess.run('git rev-parse --verify --short HEAD',
+                             shell=True, check=True, cwd=configs['repo'],
+                             capture_output=True, encoding='utf-8')
+    patch_file_name = f'{tarball_path}-patch-{sha_cmd.stdout.strip()}.tgz'
+    subprocess.run(f'tar --ignore-failed-read -cvzf  {patch_file_name} '
                    '$(git status -s | cut -c4-)',
                    shell=True, check=True, cwd=configs['repo'])
-    print(f'Patch file created: {tarball_path}')
+    print(f'Patch file created: {patch_file_name}')
 
 
 def restore_patch(filepath: str):
