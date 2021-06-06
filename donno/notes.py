@@ -227,7 +227,7 @@ def advanced_search(name: str, tag: str, content: str, book: str) -> str:
     if len(str(name)) > 0:
         search_res = filter_word(search_res, f'^Title: .*{name}')
     if len(str(tag)) > 0:
-        search_res = filter_word(search_res, f'^Tag: .*{tag}')
+        search_res = filter_word(search_res, f'^Tags: .*{tag}')
     if len(str(book)) > 0:
         search_res = filter_word(search_res, f'^Notebook: .*{book}')
     if len(str(content)) > 0:
