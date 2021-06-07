@@ -45,7 +45,7 @@ class App:
         '''
         notes.backup_patch(filepath)
 
-    def bp(self, filepath: str = "/tmp/donno.patch"):
+    def bp(self, filepath: str = "/tmp/donno"):
         '''alias for backup_patch command
         '''
         self.backup_patch(filepath)
@@ -114,12 +114,12 @@ class App:
         '''Render note as HTML and preview in browser'''
         notes.preview_note(no)
 
-    def restore_patch(self, filepath: str = "/tmp/donno.patch"):
+    def restore_patch(self, filepath: str = "/tmp/donno"):
         '''Restore notes from patch file. Abbr: rp
         '''
         notes.restore_patch(filepath)
 
-    def rp(self, filepath: str = "/tmp/donno.patch"):
+    def rp(self, filepath: str = "/tmp/donno"):
         '''alias for restore_patch command
         '''
         self.restore_patch(filepath)

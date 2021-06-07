@@ -241,11 +241,15 @@ def advanced_search(name: str, tag: str, content: str, book: str) -> str:
     return record_to_details()
 
 
+sha_cmd = subprocess.run('git rev-parse --verify --short HEAD',
+                         shell=True, check=True, cwd=configs['repo'],
+                         capture_output=True, encoding='utf-8')
+git_head_sha = sha_cmd.stdout.strip()
+
+
 def backup_patch(tarball_path: str):
-    sha_cmd = subprocess.run('git rev-parse --verify --short HEAD',
-                             shell=True, check=True, cwd=configs['repo'],
-                             capture_output=True, encoding='utf-8')
-    patch_file_name = f'{tarball_path}-patch-{sha_cmd.stdout.strip()}.tgz'
+    patch_file_name = f'{tarball_path}-patch-{git_head_sha}.tgz'
+    subprocess.run(f'rm -rvf {tarball_path}*.tgz', shell=True, check=True)
     subprocess.run(f'tar --ignore-failed-read -cvzf  {patch_file_name} '
                    '$(git status -s | cut -c4-)',
                    shell=True, check=True, cwd=configs['repo'])
@@ -253,5 +257,9 @@ def backup_patch(tarball_path: str):
 
 
 def restore_patch(filepath: str):
-    with tarfile.open(filepath, 'r') as archive:
+    patch_file_name = f'{filepath}-patch-{git_head_sha}.tgz'
+    if not Path(patch_file_name).exists():
+        logger.error("Please make sure git version of source and target repo match.")
+        raise Exception(f'Patch file with right version {patch_file_name} not found')
+    with tarfile.open(patch_file_name, 'r') as archive:
         archive.extractall(configs['repo'])
