@@ -267,16 +267,15 @@ Now the command is `dn` instead of `don`.
 
 ### In developing
 
+### On schedule
+
 1. Basic publishing module: publish to blog, such as github.io
 
 1. Advanced publishing function: publish specific note, or notes in specific notebook
 
-### On schedule
-
-1. Synchronize notes with patch file as the complement to the main sync
-   mechanism based on git;
-
 1. Search notes with the whole words;
+
+1. Better appearance: beautify output table with libraries like [colored][col], [tabulate][tab], etc
 
 1. Search notes with keywords (which is extracted with AI algorithms, such as NLP, TF-IDF, etc);
 
@@ -288,7 +287,13 @@ Now the command is `dn` instead of `don`.
 
 1. Note translation, English to Chinese and vice versa.
 
+1. Suggest when typing. For example: press TAB after input `don s py`, some candidates displayed
+   below: python, pyhive, pynvim, ...
+
 ### Completed
+
+1. Synchronize notes with patch file as the complement to the main sync
+   mechanism based on git;
 
 1. Basic note-taking functions: add, delete, list, search, view, update notes
 
@@ -311,3 +316,5 @@ Now the command is `dn` instead of `don`.
 
 1. Search with regular expression
 
+[col]: https://pypi.org/project/colored/
+[tab]: https://pypi.org/project/tabulate/

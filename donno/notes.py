@@ -117,7 +117,7 @@ def parse_note(path: Path) -> dict:
             if the_line.endswith(':'):
                 the_line += ' '  # fix 'Tags: ' striped to 'Tags:' problem
             header_sections = the_line.split(': ')
-            assert len(header_sections) == 2
+            assert len(header_sections) == 2, f'Please fix header {the_line} of note {path}'
             res[header_sections[0]] = header_sections[1]
     body = sh.sed('-n', f'{body_start_line},$p', path).stdout.decode('utf-8')
     res['body'] = body
@@ -259,7 +259,9 @@ def backup_patch(tarball_path: str):
 def restore_patch(filepath: str):
     patch_file_name = f'{filepath}-patch-{git_head_sha}.tgz'
     if not Path(patch_file_name).exists():
-        logger.error("Please make sure git version of source and target repo match.")
-        raise Exception(f'Patch file with right version {patch_file_name} not found')
+        logger.error("Please make sure git version of source and target "
+                     "repo match.")
+        raise Exception(
+            f'Patch file with right version {patch_file_name} not found')
     with tarfile.open(patch_file_name, 'r') as archive:
         archive.extractall(configs['repo'])
