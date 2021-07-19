@@ -1,4 +1,5 @@
 import fire
+import pkg_resources
 from donno import notes, config
 from donno import converters
 from pprint import pprint
@@ -143,6 +144,10 @@ class App:
     def v(self, no=1):
         '''Alias of view command'''
         self.view(no)
+
+    def version(self, no=1):
+        '''Print donno version'''
+        print(pkg_resources.require("donno")[0].version)
 
 
 def main():

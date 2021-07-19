@@ -124,7 +124,7 @@ def parse_note(path: Path) -> dict:
     return res
 
 
-def record_to_details():
+def record_to_details() -> str:
     def extract_header(path: Path) -> str:
         note = parse_note(path)
         return (f'{note["Updated"][:10]} {note["Notebook"]}: {note["Title"]} '
@@ -165,7 +165,7 @@ def filter_word(file_list: List[str], word: str) -> List[str]:
         return res.stdout.decode('UTF-8').strip().split('\n')
 
 
-def simple_search(word_list: List[str]) -> List[str]:
+def simple_search(word_list: List[str]) -> str:
     search_res = reduce(filter_word, word_list, list(NOTE_FILES))
     if len(search_res) == 0:
         return ""
