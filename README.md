@@ -7,9 +7,8 @@ A full-featured note-taking application in terminal.
 * Easy note management: add, update, list, remove note;
 * Organize notes in hierarchical notebooks;
 * Full featured formating support: you can add rich texts (markdown),
-  mathematical formula (mathjax, LaTeX), images, attachments, ...
-  All will be rendered and displayed lively in your browser
-  through [pandoc](https://pandoc.org/);
+  mathematical formula (mathjax, LaTeX), diagrams, charts (mermaid),
+  images, and attachments. All will be rendered and displayed lively in your browser;
 * Powerful and fast full-text search. Get all information at your fingers;
 * Safe and secure: all notes are saved in plain texts (markdown). You own your data.
   You can view and update your notes without any specific applications
@@ -24,12 +23,14 @@ A full-featured note-taking application in terminal.
 
 ### Prerequisites
 
-* [git](https://git-scm.com/)
-* [pandoc](https://pandoc.org/)
+* [git](https://git-scm.com/) for note synchronization;
+* [pandoc](https://pandoc.org/) and [mermaid](https://github.com/mermaid-js/mermaid)
+  for preview with browser.
 
 On Debian-based systems, install them with:
 ```
 apt install git pandoc
+npm install -g @mermaid-js/mermaid-cli mermaid-filter
 ```
 
 ## Usage
@@ -62,8 +63,6 @@ Note:
 * The command options have 2 forms: full and abbreviation.
   For example, in command `ads`, `-b` is the abbr. of `--book`,
   `-t`: `--tag`, `-n`: `--name`, etc.
-* To use `pv` command, [pandoc](https://pandoc.org/) and a browser is necessary.
-  Install pandoc on Debian/Ubuntu/Mint with `apt install pandoc`.
 
 ## Add attachments in a note
 
@@ -189,6 +188,8 @@ don exports --type json
 List parameters with `don export -h` and `don import -h`.
 
 ## Advanced search
+
+To be updated!
 
 To search notes with more details, use *advanced-search* command.
 For example, to search notes in notebook *Tech*, and "nim" in title,

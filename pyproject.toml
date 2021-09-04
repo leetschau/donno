@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "donno"
-version = "0.16.1"
+version = "1.0.1"
 description = "note-taking application in console"
 authors = ["Li Chao <clouds@isrc.iscas.ac.cn>"]
 license = "MIT"
